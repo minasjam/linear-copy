@@ -1,4 +1,5 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import { z } from "zod";
 
 const MOCK_DATA = [
   {
@@ -19,7 +20,20 @@ const MOCK_DATA = [
 ];
 
 export const taskRouter = createTRPCRouter({
+  // TODO: these need to be authenticated procedures
   getAll: publicProcedure.query(() => {
     return MOCK_DATA;
   }),
+
+  add: publicProcedure
+    .input(z.object({ title: z.string() }))
+    .mutation(({ input: { title } }) => {
+      const newTask = {
+        id: String(MOCK_DATA.length + 1),
+        title: title,
+        status: "todo",
+      };
+      MOCK_DATA.push(newTask);
+      return newTask;
+    }),
 });

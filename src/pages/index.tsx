@@ -5,20 +5,56 @@ import {
   Container,
   Divider,
   Grid,
+  Group,
   Stack,
   Text,
+  TextInput,
   Title,
   rem,
 } from "@mantine/core";
 import { api } from "~/utils/api";
+import { useForm } from "@mantine/form";
 import { useUser } from "@auth0/nextjs-auth0/client";
+
+const SPAN = {
+  checkbox: 1,
+  status: 2,
+  id: 1,
+  title: 8,
+};
+
+const HEADERS = [
+  { span: SPAN.checkbox, title: "" },
+  { span: SPAN.status, title: "Status" },
+  { span: SPAN.id, title: "ID" },
+  { span: SPAN.title, title: "Title" },
+];
 
 export default function Index() {
   const { user, error, isLoading } = useUser();
-  const taskApi = api.task.getAll.useQuery();
 
-  if (isLoading || taskApi.isLoading) return <div>Loading...</div>;
-  if (error || taskApi.error) return <div>Error</div>;
+  const form = useForm({
+    initialValues: {
+      task: "",
+    },
+  });
+
+  const apiUtils = api.useUtils();
+  const getAllTaskApi = api.task.getAll.useQuery();
+  const addTaskApi = api.task.add.useMutation({
+    onSuccess: () => {
+      void apiUtils.task.getAll.refetch();
+    },
+  });
+
+  const handleAddTask = () => {
+    if (!form.values.task) return;
+    addTaskApi.mutate({ title: form.values.task });
+    form.reset();
+  };
+
+  if (isLoading || getAllTaskApi.isLoading) return <div>Loading...</div>;
+  if (error || getAllTaskApi.error) return <div>Error</div>;
 
   if (!user)
     return (
@@ -39,34 +75,53 @@ export default function Index() {
         <Button component="a" variant="filled" href="/api/auth/logout">
           Logout
         </Button>
-        <Title order={2} mb={rem(24)}>
-          Tasks
-        </Title>
-        {taskApi?.data && taskApi.data.length > 0 && (
-          <Grid>
-            {taskApi.data.map((task, index) => (
-              <React.Fragment key={task.id}>
-                <Grid.Col span={1}>
-                  <Checkbox />
+        <Stack gap={rem(24)} w="100%">
+          <Title order={2}>Tasks</Title>
+          <form onSubmit={form.onSubmit(handleAddTask)}>
+            <Group align="flex-end">
+              <TextInput
+                style={{ flexGrow: 1 }}
+                size="md"
+                label="New task"
+                required
+                {...form.getInputProps("task")}
+              />
+              <Button size="md" type="submit">
+                Add
+              </Button>
+            </Group>
+          </form>
+          {getAllTaskApi?.data && getAllTaskApi.data.length > 0 && (
+            <Grid mt={rem(16)}>
+              {HEADERS.map((header, index) => (
+                <Grid.Col span={header.span} key={`header-${index}`}>
+                  <Text fw={900}>{header.title}</Text>
                 </Grid.Col>
-                <Grid.Col span={3}>
-                  <Text>{task.status}</Text>
-                </Grid.Col>
-                <Grid.Col span={1}>
-                  <Text>{task.id}</Text>
-                </Grid.Col>
-                <Grid.Col span={7}>
-                  <Text>{task.title}</Text>
-                </Grid.Col>
-                {index + 1 !== taskApi.data.length && (
-                  <Grid.Col span={12}>
-                    <Divider />
+              ))}
+              {getAllTaskApi.data.map((task, index) => (
+                <React.Fragment key={task.id}>
+                  <Grid.Col span={SPAN.checkbox}>
+                    <Checkbox />
                   </Grid.Col>
-                )}
-              </React.Fragment>
-            ))}
-          </Grid>
-        )}
+                  <Grid.Col span={SPAN.status}>
+                    <Text>{task.status}</Text>
+                  </Grid.Col>
+                  <Grid.Col span={SPAN.id}>
+                    <Text>{task.id}</Text>
+                  </Grid.Col>
+                  <Grid.Col span={SPAN.title}>
+                    <Text>{task.title}</Text>
+                  </Grid.Col>
+                  {index + 1 !== getAllTaskApi.data.length && (
+                    <Grid.Col span={12}>
+                      <Divider />
+                    </Grid.Col>
+                  )}
+                </React.Fragment>
+              ))}
+            </Grid>
+          )}
+        </Stack>
       </Stack>
     </Container>
   );

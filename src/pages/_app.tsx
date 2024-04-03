@@ -3,6 +3,7 @@ import { MantineProvider } from "@mantine/core";
 import { UserProvider } from "@auth0/nextjs-auth0/client";
 import { api } from "~/utils/api";
 import "@mantine/core/styles.css";
+import "@mantine/form";
 import "~/styles/globals.css";
 import type { AppType } from "next/app";
 
