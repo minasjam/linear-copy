@@ -1,19 +1,30 @@
-import { type AppType } from "next/app";
-import { Inter } from "next/font/google";
-
 import { api } from "~/utils/api";
-
+import { MantineProvider } from "@mantine/core";
+import { UserProvider } from "@auth0/nextjs-auth0/client";
+import type { AppType } from "next/app";
 import "~/styles/globals.css";
-
-const inter = Inter({
-  subsets: ["latin"],
-});
+import Head from "next/head";
+import "@mantine/core/styles.css";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
-    <main className={inter.className}>
-      <Component {...pageProps} />
-    </main>
+    <UserProvider>
+      <MantineProvider>
+        <Head>
+          <title>Almost linear</title>
+          <meta name="description" content="Linear copy" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
+          <meta charSet="UTF-8" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <main>
+          <Component {...pageProps} />
+        </main>
+      </MantineProvider>
+    </UserProvider>
   );
 };
 
