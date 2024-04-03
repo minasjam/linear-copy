@@ -1,10 +1,10 @@
-import { api } from "~/utils/api";
+import Head from "next/head";
 import { MantineProvider } from "@mantine/core";
 import { UserProvider } from "@auth0/nextjs-auth0/client";
-import type { AppType } from "next/app";
-import "~/styles/globals.css";
-import Head from "next/head";
+import { api } from "~/utils/api";
 import "@mantine/core/styles.css";
+import "~/styles/globals.css";
+import type { AppType } from "next/app";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (

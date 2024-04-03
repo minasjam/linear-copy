@@ -1,5 +1,5 @@
-import { useUser } from "@auth0/nextjs-auth0/client";
 import { Button, Container, Stack, Title, rem } from "@mantine/core";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 export default function Index() {
   const { user, error, isLoading } = useUser();
