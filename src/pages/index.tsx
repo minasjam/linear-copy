@@ -18,13 +18,15 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 const SPAN = {
   id: 1,
   status: 2,
-  title: 9,
+  title: 7,
+  actions: 2,
 };
 
 const HEADERS = [
   { span: SPAN.id, title: "ID" },
   { span: SPAN.status, title: "Status" },
   { span: SPAN.title, title: "Title" },
+  { span: SPAN.actions, title: "Actions" },
 ];
 
 export default function Index() {
@@ -39,6 +41,11 @@ export default function Index() {
   const apiUtils = api.useUtils();
   const getAllTaskApi = api.task.getAll.useQuery();
   const addTaskApi = api.task.add.useMutation({
+    onSuccess: () => {
+      void apiUtils.task.getAll.refetch();
+    },
+  });
+  const deleteTaskApi = api.task.delete.useMutation({
     onSuccess: () => {
       void apiUtils.task.getAll.refetch();
     },
@@ -89,7 +96,7 @@ export default function Index() {
             </Group>
           </form>
           {getAllTaskApi?.data && getAllTaskApi.data.length > 0 && (
-            <Grid mt={rem(16)}>
+            <Grid mt={rem(16)} align="center">
               {HEADERS.map((header, index) => (
                 <Grid.Col span={header.span} key={`header-${index}`}>
                   <Text fw={900}>{header.title}</Text>
@@ -105,6 +112,22 @@ export default function Index() {
                   </Grid.Col>
                   <Grid.Col span={SPAN.title}>
                     <Text>{task.title}</Text>
+                  </Grid.Col>
+                  <Grid.Col span={SPAN.actions}>
+                    <Group>
+                      <Button size="sm" color="yellow">
+                        Edit
+                      </Button>
+                      <Button
+                        size="sm"
+                        color="red"
+                        onClick={() => {
+                          deleteTaskApi.mutate(task.id);
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </Group>
                   </Grid.Col>
                   {index + 1 !== getAllTaskApi.data.length && (
                     <Grid.Col span={12}>

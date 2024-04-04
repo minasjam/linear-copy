@@ -6,7 +6,6 @@
 
 - editing task
 - enable changing of statuses
-- deleting of tasks
 - trpc authenticated procedures
 - deploy to Vercel
 - add E2E tests
@@ -16,3 +15,4 @@
 
 - enable drag and drop
 - click into details of tasks
+- add a notification system

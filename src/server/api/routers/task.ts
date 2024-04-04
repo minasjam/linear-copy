@@ -39,4 +39,11 @@ export const taskRouter = createTRPCRouter({
       MOCK_DATA.push(newTask);
       return newTask;
     }),
+
+  delete: publicProcedure.input(z.string()).mutation(({ input: id }) => {
+    const index = MOCK_DATA.findIndex((task) => (task.id = id));
+    if (index === -1) throw new Error("The task was not found");
+    const [deletedTask] = MOCK_DATA.splice(index, 1);
+    return deletedTask;
+  }),
 });
