@@ -19,6 +19,8 @@ const MOCK_DATA = [
   },
 ];
 
+let counter = 4;
+
 export const taskRouter = createTRPCRouter({
   // TODO: these need to be authenticated procedures
   getAll: publicProcedure.query(() => {
@@ -29,10 +31,11 @@ export const taskRouter = createTRPCRouter({
     .input(z.object({ title: z.string() }))
     .mutation(({ input: { title } }) => {
       const newTask = {
-        id: String(MOCK_DATA.length + 1),
+        id: `${counter}`,
         title: title,
         status: "todo",
       };
+      counter++;
       MOCK_DATA.push(newTask);
       return newTask;
     }),

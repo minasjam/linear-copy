@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Button,
-  Checkbox,
   Container,
   Divider,
   Grid,
@@ -17,16 +16,14 @@ import { useForm } from "@mantine/form";
 import { useUser } from "@auth0/nextjs-auth0/client";
 
 const SPAN = {
-  checkbox: 1,
-  status: 2,
   id: 1,
-  title: 8,
+  status: 2,
+  title: 9,
 };
 
 const HEADERS = [
-  { span: SPAN.checkbox, title: "" },
-  { span: SPAN.status, title: "Status" },
   { span: SPAN.id, title: "ID" },
+  { span: SPAN.status, title: "Status" },
   { span: SPAN.title, title: "Title" },
 ];
 
@@ -100,14 +97,11 @@ export default function Index() {
               ))}
               {getAllTaskApi.data.map((task, index) => (
                 <React.Fragment key={task.id}>
-                  <Grid.Col span={SPAN.checkbox}>
-                    <Checkbox />
+                  <Grid.Col span={SPAN.id}>
+                    <Text>{task.id}</Text>
                   </Grid.Col>
                   <Grid.Col span={SPAN.status}>
                     <Text>{task.status}</Text>
-                  </Grid.Col>
-                  <Grid.Col span={SPAN.id}>
-                    <Text>{task.id}</Text>
                   </Grid.Col>
                   <Grid.Col span={SPAN.title}>
                     <Text>{task.title}</Text>
