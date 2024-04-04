@@ -4,7 +4,6 @@
 
 ### Essentials
 
-- enable changing of statuses
 - trpc authenticated procedures
 - deploy to Vercel
 - add E2E tests
@@ -13,5 +12,4 @@
 ### Nice to haves
 
 - enable drag and drop
-- click into details of tasks
 - add a notification system

@@ -34,8 +34,13 @@ export const taskRouter = createTRPCRouter({
   }),
 
   add: publicProcedure
-    .input(z.object({ title: z.string() }))
-    .mutation(({ input: { title } }) => {
+    .input(
+      z.object({
+        title: z.string(),
+        status: z.enum(["todo", "in-progress", "done"]),
+      })
+    )
+    .mutation(({ input: { title, status } }) => {
       const newTask: {
         id: string;
         title: string;
@@ -43,7 +48,7 @@ export const taskRouter = createTRPCRouter({
       } = {
         id: `${counter}`,
         title: title,
-        status: "todo",
+        status: status,
       };
       counter++;
       MOCK_DATA.push(newTask);

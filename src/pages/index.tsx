@@ -5,6 +5,7 @@ import {
   Divider,
   Grid,
   Group,
+  Select,
   Stack,
   Text,
   TextInput,
@@ -38,6 +39,8 @@ export default function Index() {
   const form = useForm({
     initialValues: {
       task: "",
+      // TODO: some sort of an enum here would be good
+      status: "todo" as "todo" | "in-progress" | "done",
     },
   });
 
@@ -56,7 +59,7 @@ export default function Index() {
 
   const handleAddTask = () => {
     if (!form.values.task) return;
-    addTaskApi.mutate({ title: form.values.task });
+    addTaskApi.mutate({ title: form.values.task, status: form.values.status });
     form.reset();
   };
 
@@ -92,6 +95,14 @@ export default function Index() {
                 label="New task"
                 required
                 {...form.getInputProps("task")}
+              />
+              <Select
+                style={{ flexGrow: 1 }}
+                size="md"
+                label="Status"
+                required
+                data={["todo", "in-progress", "done"]}
+                {...form.getInputProps("status")}
               />
               <Button size="md" type="submit">
                 Add
