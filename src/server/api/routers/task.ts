@@ -1,7 +1,13 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 
-const MOCK_DATA = [
+const TASK_NOT_FOUND = "Task not found";
+
+const MOCK_DATA: {
+  id: string;
+  title: string;
+  status: "todo" | "in-progress" | "done";
+}[] = [
   {
     id: "1",
     title: "Task 1",
@@ -30,7 +36,11 @@ export const taskRouter = createTRPCRouter({
   add: publicProcedure
     .input(z.object({ title: z.string() }))
     .mutation(({ input: { title } }) => {
-      const newTask = {
+      const newTask: {
+        id: string;
+        title: string;
+        status: "todo" | "in-progress" | "done";
+      } = {
         id: `${counter}`,
         title: title,
         status: "todo",
@@ -40,9 +50,28 @@ export const taskRouter = createTRPCRouter({
       return newTask;
     }),
 
+  edit: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        title: z.string(),
+        status: z.enum(["todo", "in-progress", "done"]),
+      })
+    )
+    .mutation(({ input: { id, title, status } }) => {
+      const editedTask = MOCK_DATA.find((task) => task.id === id);
+
+      if (editedTask === undefined) throw new Error(TASK_NOT_FOUND);
+
+      editedTask.title = title;
+      editedTask.status = status;
+
+      return editedTask;
+    }),
+
   delete: publicProcedure.input(z.string()).mutation(({ input: id }) => {
     const index = MOCK_DATA.findIndex((task) => (task.id = id));
-    if (index === -1) throw new Error("The task was not found");
+    if (index === -1) throw new Error(TASK_NOT_FOUND);
     const [deletedTask] = MOCK_DATA.splice(index, 1);
     return deletedTask;
   }),

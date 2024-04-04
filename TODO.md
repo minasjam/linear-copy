@@ -4,7 +4,6 @@
 
 ### Essentials
 
-- editing task
 - enable changing of statuses
 - trpc authenticated procedures
 - deploy to Vercel

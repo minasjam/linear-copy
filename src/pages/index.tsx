@@ -12,8 +12,11 @@ import {
   rem,
 } from "@mantine/core";
 import { api } from "~/utils/api";
+import { modals } from "@mantine/modals";
 import { useForm } from "@mantine/form";
 import { useUser } from "@auth0/nextjs-auth0/client";
+// locals
+import { EditForm } from "~/components/EditForm";
 
 const SPAN = {
   id: 1,
@@ -115,7 +118,24 @@ export default function Index() {
                   </Grid.Col>
                   <Grid.Col span={SPAN.actions}>
                     <Group>
-                      <Button size="sm" color="yellow">
+                      <Button
+                        size="sm"
+                        color="yellow"
+                        onClick={() =>
+                          modals.open({
+                            title: "Edit the task?",
+                            centered: true,
+                            children: (
+                              <EditForm
+                                id={task.id}
+                                title={task.title}
+                                status={task.status}
+                                onClose={() => modals.closeAll()}
+                              />
+                            ),
+                          })
+                        }
+                      >
                         Edit
                       </Button>
                       <Button
