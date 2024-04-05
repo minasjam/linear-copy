@@ -72,7 +72,7 @@ export default function Index() {
         <Stack align="center">
           <Title>Welcome to Linear copy, stranger!</Title>
           <Button component="a" variant="filled" href="/api/auth/login">
-            Login
+            Log in
           </Button>
         </Stack>
       </Container>
@@ -83,7 +83,7 @@ export default function Index() {
       <Stack align="center">
         <Title order={1}>Welcome {user.name ?? "Dear User"}!</Title>
         <Button component="a" variant="filled" href="/api/auth/logout">
-          Logout
+          Log out
         </Button>
         <Stack gap={rem(24)} w="100%">
           <Title order={2}>Tasks</Title>
@@ -95,6 +95,7 @@ export default function Index() {
                 label="New task"
                 required
                 {...form.getInputProps("task")}
+                data-test-id="task-input"
               />
               <Select
                 style={{ flexGrow: 1 }}

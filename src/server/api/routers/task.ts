@@ -8,24 +8,25 @@ const MOCK_DATA: {
   title: string;
   status: "todo" | "in-progress" | "done";
 }[] = [
-  {
-    id: "1",
-    title: "Task 1",
-    status: "todo",
-  },
-  {
-    id: "2",
-    title: "Task 2",
-    status: "in-progress",
-  },
-  {
-    id: "3",
-    title: "Task 3",
-    status: "done",
-  },
+  // {
+  //   id: "1",
+  //   title: "Task 1",
+  //   status: "todo",
+  // },
+  // {
+  //   id: "2",
+  //   title: "Task 2",
+  //   status: "in-progress",
+  // },
+  // {
+  //   id: "3",
+  //   title: "Task 3",
+  //   status: "done",
+  // },
 ];
 
-let counter = 4;
+// let counter = 4;
+let counter = 1;
 
 export const taskRouter = createTRPCRouter({
   // TODO: these need to be authenticated procedures
