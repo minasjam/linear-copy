@@ -11,3 +11,6 @@ All done :-\*
 - trpc authenticated procedures
 - enable drag and drop
 - add a notification system
+
+- zkusit věci, které se diskutovaly na Guild meetingu jako ideální stack
+  - renovate bot aj.
