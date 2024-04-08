@@ -12,9 +12,23 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
           echo "$GITHUB_CONTEXT"
+
       - name: Checkout 🛎
-        uses: actions/checkout@v1
-      - name: Run Cypress 🌲
-        uses: cypress-io/github-action@v2
+        uses: actions/checkout@v3
+
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
         env:
           CYPRESS_BASE_URL: ${{ github.event.deployment_status.target_url }}
+
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: /home/runner/work/platform/platform/cypress/screenshots/
