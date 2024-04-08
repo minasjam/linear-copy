@@ -5,7 +5,7 @@ import { MainSteps } from "cypress/support/steps/MainSteps";
 
 describe("template spec", () => {
   it("passes", () => {
-    cy.visit("http://localhost:3000");
+    cy.visit("/");
 
     LandingAssertions.titleIsVisible();
     LandingAssertions.logInButtonIsVisible();
