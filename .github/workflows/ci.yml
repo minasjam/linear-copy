@@ -32,7 +32,7 @@ jobs:
         run: npm install --global vercel@latest
       - name: Pull Vercel Environment Information
         # The env should be changed to development env
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }} --force
       - name: Build Project Artifacts
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
 
