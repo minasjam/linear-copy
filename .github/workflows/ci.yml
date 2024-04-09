@@ -30,6 +30,11 @@ jobs:
       - run: npm ci
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
+      - name: Dump GitHub context
+        run: echo ${{ secrets.VERCEL_GITHUB_TOKEN }}
+
+      - name: Echo Vercel Environment Information
+        run: echo {{secrets.VERCEL_GITHUB_TOKEN}}
       - name: Pull Vercel Environment Information
         # The env should be changed to development env
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_GITHUB_TOKEN }} --force
