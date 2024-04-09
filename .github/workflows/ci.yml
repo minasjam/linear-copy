@@ -1,19 +1,40 @@
-name: ci
-# https://docs.github.com/en/actions/reference/events-that-trigger-workflows
+name: Tests - Build App
+# This is just test that app can be build, we don't do any deploy here
+
 on: [push, deployment, deployment_status]
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
 jobs:
-  e2e:
-    # only runs this job on successful deploy
-    if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
+  build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v2
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v3
         with:
-          node-version: "20"
+          node-version: 20.x
 
-      - name: Install dependencies 📦
-        run: npm ci
+      - name: Cache node modules
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules-v1
+        with:
+          path: |
+            node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('package-lock.json') }}
+
+      - run: npm ci
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+      - name: Pull Vercel Environment Information
+        # The env should be changed to development env
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_GITHUB_TOKEN }}
+      - name: Build Project Artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_GITHUB_TOKEN }}
 
       - name: Run Cypress 🌲
         uses: cypress-io/github-action@v6
