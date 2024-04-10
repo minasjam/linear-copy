@@ -1,5 +1,4 @@
 import { defineConfig } from "cypress";
-import { env } from "~/env";
 
 export default defineConfig({
   video: false,
