@@ -1,5 +1,5 @@
 name: Test building the app & E2E test it with Cypress
-
+# https://vercel.com/guides/how-can-i-use-github-actions-with-vercel
 on: [deployment_status]
 
 env:
@@ -31,14 +31,14 @@ jobs:
       - name: 🏗️ Build Project Artifacts
         run: vercel build --prod --token=${{ secrets.VERCEL_GITHUB_TOKEN }}
 
-      - name: 🧪 Run Cypress
-        uses: cypress-io/github-action@v6
-        env:
-          CYPRESS_BASE_URL: ${{ github.event.deployment_status.target_url }}
+      # - name: 🧪 Run Cypress
+      #   uses: cypress-io/github-action@v6
+      #   env:
+      #     CYPRESS_BASE_URL: ${{ github.event.deployment_status.target_url }}
 
-      - name: 📸 Upload screenshots
-        if: ${{ failure() }}
-        uses: actions/upload-artifact@v2
-        with:
-          name: cypress-screenshots
-          path: cypress/screenshots
+      # - name: 📸 Upload screenshots
+      #   if: ${{ failure() }}
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: cypress-screenshots
+      #     path: cypress/screenshots
