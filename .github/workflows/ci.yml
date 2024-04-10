@@ -1,5 +1,4 @@
-name: Tests - Build App
-# This is just test that app can be build, we don't do any deploy here
+name: Test building the app & E2E test it with Cypress
 
 on: [deployment_status]
 
@@ -7,20 +6,37 @@ env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
-# https://vercel.com/guides/how-can-i-run-end-to-end-tests-after-my-vercel-preview-deployment
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Install Vercel CLI
+      - name: 📥 Checkout code
+        uses: actions/checkout@v3
+
+      - name: 🌐 Use Node.js 20.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.x
+
+      - name: 📦 Install Dependencies
         run: npm ci
-      - name: Run Cypress 🌲
+
+      - name: ⬇️ Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: 🔄 Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_GITHUB_TOKEN }}
+
+      - name: 🏗️ Build Project Artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_GITHUB_TOKEN }}
+
+      - name: 🧪 Run Cypress
         uses: cypress-io/github-action@v6
         env:
           CYPRESS_BASE_URL: ${{ github.event.deployment_status.target_url }}
-      - name: Upload screenshots
+
+      - name: 📸 Upload screenshots
         if: ${{ failure() }}
         uses: actions/upload-artifact@v2
         with:
