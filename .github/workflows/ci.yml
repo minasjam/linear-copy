@@ -33,15 +33,14 @@ jobs:
       - name: Build Project Artifacts 🏗️
         run: vercel build --prod --token=${{ secrets.VERCEL_GITHUB_TOKEN }}
 
-      - name: Login to Vercel 🔑
-        run: vercel login --token ${{ secrets.VERCEL_GITHUB_TOKEN }}
-
+      # - name: Login to Vercel 🔑
+      #   run: vercel login --token ${{ secrets.VERCEL_GITHUB_TOKEN }}
       - name: Run Cypress 🧪
         uses: cypress-io/github-action@v6
         # env:
         #   CYPRESS_BASE_URL:${{ github.event.deployment_status.environment_url }}
-        with:
-          config: baseUrl=${{ github.event.deployment_status.environment_url }}
+        # with:
+        #   config: baseUrl=${{ github.event.deployment_status.environment_url }}
 
       - name: Upload screenshots 📸
         if: ${{ failure() }}
