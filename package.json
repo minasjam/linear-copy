@@ -12,7 +12,10 @@
     "lint": "next lint",
     "start": "next start",
     "lint:fix": "next lint --fix",
-    "ts-check": "tsc --noEmit"
+    "ts-check": "tsc --noEmit",
+    "env:pull": "vercel env pull .env.development.local",
+    "env:pull-prod": "vercel pull --environment=production",
+    "env:pull-prev": "vercel pull --environment=preview"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^3.5.0",
