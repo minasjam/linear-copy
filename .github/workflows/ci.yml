@@ -28,10 +28,10 @@ jobs:
         run: npm install --global vercel@latest
 
       - name: Pull Vercel Environment Information 🔄
-        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_GITHUB_TOKEN }}
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_GITHUB_TOKEN }}
 
       - name: Build Project Artifacts 🏗️
-        run: vercel build --prev --token=${{ secrets.VERCEL_GITHUB_TOKEN }}
+        run: vercel build --prod --token=${{ secrets.VERCEL_GITHUB_TOKEN }}
 
       - name: Run Cypress 🧪
         uses: cypress-io/github-action@v6
@@ -44,33 +44,3 @@ jobs:
         with:
           name: cypress-screenshots
           path: cypress/screenshots
-
-          # https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#job-status-check-functions
-      - name: Cypress tests ✅
-        if: ${{ success() }}
-        # set the merge commit status check
-        # using GitHub REST API
-        # see https://docs.github.com/en/rest/reference/repos#create-a-commit-status
-        run: |
-          curl --request POST \
-          --url https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }} \
-          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
-          --header 'content-type: application/json' \
-          --data '{
-            "context": "e2e",
-            "state": "success",
-            "description": "Cypress tests passed"
-          }'
-
-      - name: Cypress tests 🚨
-        if: ${{ failure() }}
-        run: |
-          curl --request POST \
-          --url https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }} \
-          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
-          --header 'content-type: application/json' \
-          --data '{
-            "context": "e2e",
-            "state": "failure",
-            "description": "Cypress tests failed"
-          }'
