@@ -34,7 +34,7 @@ jobs:
         run: vercel build --prod --token=${{ secrets.VERCEL_GITHUB_TOKEN }}
 
       - name: Login to Vercel 🔑
-        run: vercel login --email ${{ secrets.VERCEL_EMAIL }} --token ${{ secrets.VERCEL_GITHUB_TOKEN }}
+        run: vercel login --token ${{ secrets.VERCEL_GITHUB_TOKEN }}
 
       - name: Run Cypress 🧪
         uses: cypress-io/github-action@v6
