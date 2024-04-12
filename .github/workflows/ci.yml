@@ -42,7 +42,7 @@ jobs:
       - name: Run Cypress 🧪
         uses: cypress-io/github-action@v6
         env:
-          CYPRESS_BASE_URL: "https://linear-copy-git-add-ci-minasjams-projects.vercel.app/"
+          CYPRESS_BASE_URL: "https://linear-copy-git-${{github.repository}}-minasjams-projects.vercel.app/"
 
       - name: Upload screenshots 📸
         if: ${{ failure() }}
