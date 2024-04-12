@@ -27,6 +27,18 @@ jobs:
         shell: bash
         run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/} | tr / -)" >> $GITHUB_ENV
 
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+          JOB: ${{ toJson(job) }}
+          RUNNER: ${{ toJson(runner) }}
+          STEPS: ${{ toJson(steps) }}
+        run: |
+          echo "$GITHUB_CONTEXT"
+          echo "$JOB"
+          echo "$RUNNER"
+          echo "$STEPS"
+
       - name: Run Cypress 🧪
         uses: cypress-io/github-action@v6
         env:
