@@ -3,12 +3,23 @@ name: E2E test app with Cypress
 # https://vercel.com/guides/how-can-i-use-github-actions-with-vercel
 # https://vercel.com/guides/how-can-i-run-end-to-end-tests-after-my-vercel-preview-deployment
 
-on: [deployment_status]
+on: [push, deployment_status]
 
 jobs:
+  save-branch-name: # New job to save branch name (on push)
+    # if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Get branch name
+        id: get-branch-name
+        run: echo "BRANCH_NAME=${{ github.ref_name }}"
+      - name: Set environment variable
+        run: echo "::set-env name=BRANCH_NAME::${{ steps.get-branch-name.outputs.BRANCH_NAME }}"
+
   e2e:
     if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
-
+    needs: save-branch-name
     runs-on: ubuntu-latest
 
     steps:
@@ -34,9 +45,6 @@ jobs:
           echo "$JOB"
           echo "$RUNNER"
           echo "$STEPS"
-
-      - name: Extract branch name
-        run: echo "BRANCH_NAME=${{ github.event.deployment.ref }}" >> $GITHUB_ENV
 
       - name: Run Cypress 🧪
         uses: cypress-io/github-action@v6
