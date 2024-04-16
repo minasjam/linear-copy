@@ -3,7 +3,7 @@ name: E2E test app with Cypress
 # https://vercel.com/guides/how-can-i-use-github-actions-with-vercel
 # https://vercel.com/guides/how-can-i-run-end-to-end-tests-after-my-vercel-preview-deployment
 
-on: [push, deployment_status]
+on: [pull_request, deployment_status]
 
 jobs:
   save-branch-name: # New job to save branch name (on push)
