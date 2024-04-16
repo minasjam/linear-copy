@@ -3,23 +3,12 @@ name: E2E test app with Cypress
 # https://vercel.com/guides/how-can-i-use-github-actions-with-vercel
 # https://vercel.com/guides/how-can-i-run-end-to-end-tests-after-my-vercel-preview-deployment
 
-on: [pull_request, deployment_status]
+on: [deployment_status]
 
 jobs:
-  save-branch-name: # New job to save branch name (on push)
-    # if: github.event_name == 'push'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Get branch name
-        id: get-branch-name
-        run: echo "BRANCH_NAME=${{ github.ref_name }}"
-      - name: Set environment variable
-        run: echo "::set-env name=BRANCH_NAME::${{ steps.get-branch-name.outputs.BRANCH_NAME }}"
-
   e2e:
     if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
-    needs: save-branch-name
+
     runs-on: ubuntu-latest
 
     steps:
@@ -30,6 +19,18 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20.x
+
+      - uses: actions/cache@v4
+        with:
+          # See here for caching with `yarn` https://github.com/actions/cache/blob/main/examples.md#node---yarn or you can leverage caching with actions/setup-node https://github.com/actions/setup-node
+          path: |
+            ~/.npm
+            ${{ github.workspace }}/.next/cache
+          # Generate a new cache whenever packages or source files change.
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+          # If source files changed but packages didn't, rebuild from a prior cache.
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
 
       - name: Install Dependencies 📦
         run: npm ci
