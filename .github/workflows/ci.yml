@@ -45,12 +45,12 @@ jobs:
       - name: Build Project Artifacts
         run: vercel build --token=${{ secrets.VERCEL_GITHUB_TOKEN }}
 
-      # - name: Run the build
-      #   # run: vercel --token=${{ secrets.VERCEL_GITHUB_TOKEN }}
-      #   run: next build
+      - name: Run the build
+        #   # run: vercel --token=${{ secrets.VERCEL_GITHUB_TOKEN }}
+        run: next dev
 
-      - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_GITHUB_TOKEN }}
+      # - name: Deploy Project Artifacts to Vercel
+      #   run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_GITHUB_TOKEN }}
 
       # - name: Run Cypress 🧪
       #   uses: cypress-io/github-action@v6
