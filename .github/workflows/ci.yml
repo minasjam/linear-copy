@@ -58,7 +58,6 @@ jobs:
       - name: Start server and run tests
         run: |
           npm run dev &
-          npx wait-on http://localhost:3000
           npx cypress run
 
       - name: Upload screenshots 📸
