@@ -3,6 +3,10 @@ name: E2E test app with Cypress
 # https://vercel.com/guides/how-can-i-use-github-actions-with-vercel
 # https://vercel.com/guides/how-can-i-run-end-to-end-tests-after-my-vercel-preview-deployment
 
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
 on: [deployment_status]
 
 jobs:
@@ -35,22 +39,18 @@ jobs:
       - name: Install Dependencies 📦
         run: npm ci
 
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-          JOB: ${{ toJson(job) }}
-          RUNNER: ${{ toJson(runner) }}
-          STEPS: ${{ toJson(steps) }}
-        run: |
-          echo "$GITHUB_CONTEXT"
-          echo "$JOB"
-          echo "$RUNNER"
-          echo "$STEPS"
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Run the build
+        # run: vercel --token=${{ secrets.VERCEL_TOKEN }}
+        run: next build
 
       - name: Run Cypress 🧪
         uses: cypress-io/github-action@v6
-        env:
-          CYPRESS_BASE_URL: "https://linear-copy-git-${{env.BRANCH_NAME}}-minasjams-projects.vercel.app/"
 
       - name: Upload screenshots 📸
         if: ${{ failure() }}
@@ -58,10 +58,3 @@ jobs:
         with:
           name: cypress-screenshots
           path: cypress/screenshots
-
-      - name: Upload videos
-        if: ${{ failure() }}
-        uses: actions/upload-artifact@v2
-        with:
-          name: cypress-videos
-          path: cypress/videos
