@@ -9,7 +9,7 @@ describe.only("template spec", () => {
 
     LandingAssertions.titleIsVisible();
     LandingAssertions.logInButtonIsVisible();
-    LandingSteps.selectLogInButton();
+    // LandingSteps.selectLogInButton();
 
     // cy.login();
     cy.loginToAuth0("martin.minasjan+test1@profiq.com", "jD7qfeCqgJQwE5s");
