@@ -23,6 +23,7 @@ export const env = createEnv({
     AUTH0_ISSUER_BASE_URL: z.string().url(),
     AUTH0_BASE_URL: z.string().url(),
     VERCEL_ENV: z.enum(["development", "preview", "production"]),
+    VERCEL_COMMIT_URL: z.string().optional(),
     VERCEL_BRANCH_URL: z.string().optional(),
   },
 
@@ -48,6 +49,7 @@ export const env = createEnv({
     AUTH0_ISSUER_BASE_URL: process.env.AUTH0_ISSUER_BASE_URL,
     AUTH0_BASE_URL: process.env.AUTH0_BASE_URL,
     VERCEL_ENV: process.env.VERCEL_ENV,
+    VERCEL_COMMIT_URL: process.env.VERCEL_URL,
     VERCEL_BRANCH_URL: process.env.VERCEL_BRANCH_URL,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },

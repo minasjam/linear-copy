@@ -1,0 +1,23 @@
+name: Playwright Tests
+
+on:
+  deployment_status:
+jobs:
+  run-e2es:
+    if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code 📥
+        uses: actions/checkout@v3
+      - name: Install dependencies 📦
+        run: npm ci
+      - name: Run Cypress 🧪
+        uses: cypress-io/github-action@v6
+        env:
+          CYPRESS_BASE_URL: ${{ github.event.deployment_status.environment_url }}
+      - name: Upload screenshots 📸
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
