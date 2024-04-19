@@ -28,6 +28,7 @@ describe("template spec", () => {
 describe.only("Auth0", function () {
   beforeEach(function () {
     // cy.task("db:seed");
+    cy.visit("/");
     cy.loginToAuth0("martin.minasjan+test1@profiq.com", "jD7qfeCqgJQwE5s");
     cy.visit("/");
   });
