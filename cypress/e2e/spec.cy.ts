@@ -33,6 +33,9 @@ describe.only("Auth0", function () {
   });
 
   it("shows onboarding", function () {
-    cy.contains("Get Started").should("be.visible");
+    MainAssertions.titleIsVisible();
+    MainAssertions.logOutButtonIsVisible();
+    MainAssertions.subtitleIsVisible();
+    MainAssertions.taskInputIsVisible();
   });
 });
