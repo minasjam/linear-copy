@@ -14,8 +14,8 @@
 // -- This is a parent command --
 Cypress.Commands.add("login", () => {
   cy.origin("https://dev-4quxvne3srvtb7w3.us.auth0.com/", () => {
-    cy.get("#username").type(`martin.minasjan+test@profiq.com`);
-    cy.get("#password").type("3LyuPW2qhpd37Ym");
+    cy.get("#username").type(`martin.minasjan+test1@profiq.com`);
+    cy.get("#password").type("jD7qfeCqgJQwE5s");
     cy.get(
       "form > div:last-child() > button[type=submit][name=action]"
     ).click();
