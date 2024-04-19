@@ -24,3 +24,18 @@ describe("template spec", () => {
     MainSteps.selectLogOutButton();
   });
 });
+
+describe.only("Auth0", function () {
+  beforeEach(function () {
+    // cy.task("db:seed");
+    cy.loginToAuth0("martin.minasjan+test1@profiq.com", "jD7qfeCqgJQwE5s");
+    cy.visit("/");
+  });
+
+  it("shows onboarding", function () {
+    MainAssertions.titleIsVisible();
+    MainAssertions.logOutButtonIsVisible();
+    MainAssertions.subtitleIsVisible();
+    MainAssertions.taskInputIsVisible();
+  });
+});

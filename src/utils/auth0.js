@@ -6,8 +6,8 @@ export function returnAuth0BaseURL() {
     case "production":
       return env.AUTH0_BASE_URL;
     case "preview":
-      return env.VERCEL_BRANCH_URL
-        ? `https://${env.VERCEL_BRANCH_URL}`
+      return env.VERCEL_COMMIT_URL
+        ? `https://${env.VERCEL_COMMIT_URL}`
         : "https://linear-copy.vercel.app";
     default:
       return env.AUTH0_BASE_URL || "http://localhost:3000";
