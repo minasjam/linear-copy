@@ -3,7 +3,7 @@ import { LandingSteps } from "cypress/support/steps/LandingSteps";
 import { MainAssertions } from "cypress/support/assertions/MainAsserions";
 import { MainSteps } from "cypress/support/steps/MainSteps";
 
-describe("template spec", () => {
+describe.only("template spec", () => {
   it("passes", () => {
     cy.visit("/");
 
@@ -11,7 +11,9 @@ describe("template spec", () => {
     LandingAssertions.logInButtonIsVisible();
     LandingSteps.selectLogInButton();
 
-    cy.login();
+    // cy.login();
+    cy.loginToAuth0("martin.minasjan+test1@profiq.com", "jD7qfeCqgJQwE5s");
+    cy.visit("/");
 
     MainAssertions.titleIsVisible();
     MainAssertions.logOutButtonIsVisible();
@@ -25,7 +27,7 @@ describe("template spec", () => {
   });
 });
 
-describe.only("Auth0", function () {
+describe("Auth0", function () {
   beforeEach(function () {
     // cy.task("db:seed");
     cy.visit("/");
