@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 /// <reference types="cypress" />
+
+import { LandingSteps } from "./steps/LandingSteps";
+
 // ***********************************************
 // This example commands.ts shows you how to
 // create various custom commands and overwrite
@@ -27,7 +30,7 @@ Cypress.Commands.add("login", () => {
 
 function loginViaAuth0Ui(username: string, password: string) {
   // App landing page redirects to Auth0.
-  cy.visit("/");
+  LandingSteps.selectLogInButton();
 
   // Login on Auth0.
   cy.origin(
