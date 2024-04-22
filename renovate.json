@@ -5,7 +5,6 @@
   "branchPrefix": "renovate-",
   "separateMajorMinor": true,
   "separateMultipleMajor": true,
-  "prConcurrentLimit": 10,
   "packageRules": [
     {
       "matchDepTypes": ["dependencies"],
