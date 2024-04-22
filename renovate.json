@@ -1,6 +1,32 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
+  "extends": ["config:base"],
+  "commitMessagePrefix": "chore(deps): ",
+  "branchPrefix": "renovate-",
+  "separateMajorMinor": true,
+  "separateMultipleMajor": true,
+  "prConcurrentLimit": 10,
+  "schedule": ["after 10pm and before 5am"],
+  "packageRules": [
+    {
+      "matchDepTypes": ["dependencies"],
+      "matchUpdateTypes": ["major"],
+      "groupName": "deps-major"
+    },
+    {
+      "matchDepTypes": ["dependencies"],
+      "matchUpdateTypes": ["patch", "minor", "digest", "bump"],
+      "groupName": "deps-non-major"
+    },
+    {
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["major"],
+      "groupName": "dev-deps-major"
+    },
+    {
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["patch", "minor", "digest", "bump"],
+      "groupName": "dev-deps-non-major"
+    }
   ]
 }
