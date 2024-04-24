@@ -7,8 +7,24 @@ import {
 } from "@auth0/nextjs-auth0";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-function returnHost(req: NextApiRequest) {
+function returnPreviewHost(req: NextApiRequest) {
   const host = req.headers.host;
+
+  const regexBranchUrl = /^linear-copy-git-.*-minasjams-projects\.vercel\.app$/;
+
+  if (!host) return env.VERCEL_BRANCH_URL;
+
+  if (regexBranchUrl.test(host)) {
+    return env.VERCEL_BRANCH_URL;
+  } else if (host.endsWith("-minasjams-projects.vercel.app")) {
+    return env.VERCEL_COMMIT_URL;
+  } else {
+    return env.VERCEL_BRANCH_URL;
+  }
+}
+
+function returnHost(req: NextApiRequest) {
+  const host = returnPreviewHost(req);
 
   switch (env.VERCEL_ENV) {
     case "production":
