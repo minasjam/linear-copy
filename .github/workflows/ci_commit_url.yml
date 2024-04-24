@@ -1,4 +1,4 @@
-name: Cypress through commit tests
+name: Cypress tests
 
 on:
   deployment_status:
@@ -7,12 +7,14 @@ jobs:
     if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code 📥
-        uses: actions/checkout@v3
       - name: Use Node.js 20.x 🌐
         uses: actions/setup-node@v3
         with:
           node-version: 20.x
+
+      - name: Checkout code 📥
+        uses: actions/checkout@v3
+
       - uses: actions/cache@v4
         with:
           # See here for caching with `yarn` https://github.com/actions/cache/blob/main/examples.md#node---yarn or you can leverage caching with actions/setup-node https://github.com/actions/setup-node
@@ -24,12 +26,15 @@ jobs:
           # If source files changed but packages didn't, rebuild from a prior cache.
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+
       - name: Install dependencies 📦
         run: npm ci
+
       - name: Run Cypress 🧪
         uses: cypress-io/github-action@v6
         env:
           CYPRESS_BASE_URL: ${{ github.event.deployment_status.environment_url }}
+
       - name: Upload screenshots 📸
         if: ${{ failure() }}
         uses: actions/upload-artifact@v2
