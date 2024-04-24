@@ -1,5 +1,7 @@
 name: Cypress tests
 
+# https://vercel.com/guides/how-can-i-run-end-to-end-tests-after-my-vercel-preview-deployment
+
 on:
   deployment_status:
 jobs:
