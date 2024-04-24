@@ -9,10 +9,10 @@ jobs:
     if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
     runs-on: ubuntu-latest
     steps:
-      - name: Use Node.js 20.x 🌐
+      - name: Use Latest Node.js 🌐
         uses: actions/setup-node@v3
         with:
-          node-version: 20.x
+          node-version: latest
 
       - name: Checkout code 📥
         uses: actions/checkout@v3
