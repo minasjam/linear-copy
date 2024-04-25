@@ -4,6 +4,7 @@ name: Cypress tests
 
 on:
   deployment_status:
+
 jobs:
   run-e2es:
     if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'Preview'
