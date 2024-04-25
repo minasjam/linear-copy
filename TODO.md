@@ -4,12 +4,18 @@
 
 ### Essentials
 
-- trpc authenticated procedures
-- deploy to Vercel
-- add E2E tests
-- add tests to the pipeline
+- [x] trpc authenticated procedures
+- [x] deploy to Vercel
+- [x] add E2E tests
+- [x] add tests to the pipeline
+
+### Next
+
+- zkusit věci, které se diskutovaly na Guild meetingu jako ideální stack
+  - renovate bot aj.
 
 ### Nice to haves
 
+- trpc authenticated procedures
 - enable drag and drop
 - add a notification system
