@@ -7,30 +7,20 @@ import {
 } from "@auth0/nextjs-auth0";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-function returnPreviewHost(req: NextApiRequest) {
-  const host = req.headers.host;
-
-  const regexBranchUrl = /^linear-copy-git-.*-minasjams-projects\.vercel\.app$/;
-
-  if (!host) return env.VERCEL_BRANCH_URL;
-
-  if (regexBranchUrl.test(host)) {
-    return env.VERCEL_BRANCH_URL;
-  } else if (host.endsWith("-minasjams-projects.vercel.app")) {
-    return env.VERCEL_COMMIT_URL;
-  } else {
-    return env.VERCEL_BRANCH_URL;
-  }
-}
-
 function returnHost(req: NextApiRequest) {
-  const host = returnPreviewHost(req);
+  const host = req.headers.host;
+  const isCommitUrlRegex =
+    /^(?!linear-copy-git-).*-minasjams-projects\.vercel\.app$/;
+  const previewHost =
+    host && isCommitUrlRegex.test(host)
+      ? env.VERCEL_COMMIT_URL
+      : env.VERCEL_BRANCH_URL;
 
   switch (env.VERCEL_ENV) {
     case "production":
       return "linear-copy.vercel.app";
     case "preview":
-      return host;
+      return previewHost;
     default:
       return "localhost:3000";
   }
