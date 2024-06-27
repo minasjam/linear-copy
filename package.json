@@ -39,17 +39,17 @@
   },
   "devDependencies": {
     "@types/eslint": "8.56.10",
-    "@types/node": "20.12.7",
-    "@types/react": "18.3.0",
+    "@types/node": "20.14.9",
+    "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
-    "@typescript-eslint/eslint-plugin": "7.7.1",
-    "@typescript-eslint/parser": "7.7.1",
-    "cypress": "13.8.1",
+    "@typescript-eslint/eslint-plugin": "7.14.1",
+    "@typescript-eslint/parser": "7.14.1",
+    "cypress": "13.12.0",
     "eslint": "8.57.0",
-    "eslint-config-next": "14.2.3",
+    "eslint-config-next": "14.2.4",
     "eslint-plugin-sort-imports-es6-autofix": "0.6.0",
-    "prisma": "5.13.0",
-    "typescript": "5.4.5"
+    "prisma": "5.16.1",
+    "typescript": "5.5.2"
   },
   "ct3aMetadata": {
     "initVersion": "7.30.0"
